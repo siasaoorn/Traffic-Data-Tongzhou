@@ -1,0 +1,432 @@
+
+<h2 class="sr-only">Executive Mall Traffic BI Dashboard with WoW, MoM, growth rates, trend direction, and performance ranking for Dec 2025–May 2026.</h2>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.db{font-family:'Noto Sans SC','Microsoft YaHei',var(--font-sans),sans-serif;padding:18px;background:var(--color-background-tertiary)}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.bicon{width:38px;height:38px;background:#0F2847;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.btitle{font-size:16px;font-weight:700;color:var(--color-text-primary)}
+.bsub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.lrow{display:flex;gap:5px}
+.lb{padding:5px 14px;border-radius:18px;border:1px solid #CBD5E1;background:var(--color-background-primary);font-size:12px;cursor:pointer;color:var(--color-text-secondary);font-family:inherit}
+.lb.on{background:#0F2847;color:#fff;border-color:#0F2847}
+.fbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;background:var(--color-background-primary);border-radius:9px;padding:10px 14px;border:1px solid #E2E8F0}
+.fl{font-size:11px;color:var(--color-text-secondary);font-weight:700;letter-spacing:0.5px}
+.fbar select{padding:5px 10px;border-radius:7px;border:1px solid #CBD5E1;background:var(--color-background-primary);font-size:12px;color:var(--color-text-primary);cursor:pointer;font-family:inherit}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kc{background:var(--color-background-primary);border-radius:10px;padding:14px 16px;border:1px solid #E2E8F0}
+.kc.dk{background:#0F2847;border-color:#0F2847}
+.kl{font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:6px}
+.kc.dk .kl{color:rgba(255,255,255,0.6)}
+.kv{font-size:24px;font-weight:700;color:var(--color-text-primary);line-height:1.1}
+.kc.dk .kv{color:#fff}
+.kdelta{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:2px}
+.chip.up{background:#DCFCE7;color:#166534}
+.chip.dn{background:#FEE2E2;color:#991B1B}
+.chip.nt{background:#F1F5F9;color:#475569}
+.kc.dk .chip.up{background:rgba(22,101,52,0.3);color:#86EFAC}
+.kc.dk .chip.dn{background:rgba(153,27,27,0.3);color:#FCA5A5}
+.sec{background:var(--color-background-primary);border-radius:10px;padding:18px;border:1px solid #E2E8F0;margin-bottom:14px}
+.shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:6px}
+.stitle{font-size:14px;font-weight:700;color:var(--color-text-primary);display:flex;align-items:center;gap:7px}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:6px;background:#EFF6FF;color:#0F2847;font-weight:700;letter-spacing:0.4px}
+.ssub{font-size:11px;color:#94A3B8;margin-bottom:14px}
+.wk-table{width:100%;border-collapse:collapse;font-size:12px}
+.wk-table th{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.4px;padding:0 8px 8px;text-align:left;border-bottom:1px solid #F1F5F9}
+.wk-table th.r{text-align:right}
+.wk-table td{padding:7px 8px;border-bottom:1px solid #F8FAFC;vertical-align:middle}
+.wk-table tr:last-child td{border-bottom:none}
+.wk-table tr.best{background:#F0F9FF}
+.wk-table tr.worst{background:#FFF8F8}
+.rk{font-size:10px;font-weight:700;color:#94A3B8;min-width:22px}
+.rk.g1{color:#0F2847}
+.bar-bg{height:6px;background:#F1F5F9;border-radius:3px;min-width:60px;max-width:120px}
+.bar-fill{height:100%;border-radius:3px;background:#0F2847}
+.bar-fill.up{background:#16A34A}
+.bar-fill.dn{background:#DC2626}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.mo-card{padding:12px;border-radius:8px;background:var(--color-background-secondary);border:1px solid #F1F5F9;display:flex;flex-direction:column;gap:4px}
+.mo-name{font-size:12px;font-weight:700;color:var(--color-text-primary)}
+.mo-total{font-size:20px;font-weight:700;color:var(--color-text-primary)}
+.mo-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.mo-stat{font-size:11px;color:#64748B}
+.mo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.ins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.ins-card{border-radius:8px;padding:11px 13px;border-left:3px solid #0F2847;background:#F8FAFF}
+.ins-card.g{border-left-color:#16A34A;background:#F0FDF4}
+.ins-card.r{border-left-color:#DC2626;background:#FFF5F5}
+.ins-card.a{border-left-color:#D97706;background:#FFFBEB}
+.ins-text{font-size:12px;color:var(--color-text-primary);line-height:1.6}
+</style>
+
+<div class="db">
+<div class="topbar">
+  <div class="brand">
+    <div class="bicon"><i class="ti ti-building-store" style="color:#fff;font-size:18px" aria-hidden="true"></i></div>
+    <div>
+      <div class="btitle" id="tt">Mall Traffic — Executive Performance Report</div>
+      <div class="bsub" id="ts">Dec 2025 – May 2026 &nbsp;·&nbsp; WoW · MoM · Growth Analysis</div>
+    </div>
+  </div>
+  <div class="lrow">
+    <button class="lb on" onclick="setL('en')" id="ben">EN</button>
+    <button class="lb" onclick="setL('zh')" id="bzh">中文</button>
+  </div>
+</div>
+
+<div class="fbar">
+  <span class="fl" id="tfl">FILTER:</span>
+  <select id="fm" onchange="go()">
+    <option value="all" id="tam">All months</option>
+    <option value="12">December</option>
+    <option value="1">January</option>
+    <option value="2">February</option>
+    <option value="3">March</option>
+    <option value="4">April</option>
+    <option value="5">May</option>
+  </select>
+  <select id="ft" onchange="go()">
+    <option value="all" id="tad">All days</option>
+    <option value="Weekday" id="twd">Weekday</option>
+    <option value="Weekend" id="twe">Weekend</option>
+  </select>
+</div>
+
+<div class="kgrid" id="kpis"></div>
+
+<div class="sec">
+  <div class="shead">
+    <div class="stitle"><i class="ti ti-chart-bar" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="tws">Weekly Performance Analysis</span><span class="sbadge" id="twbadge">WoW COMPARISON</span></div>
+  </div>
+  <div class="ssub" id="twsub">All weeks ranked by total traffic · WoW growth · daily average</div>
+  <table class="wk-table">
+    <thead><tr>
+      <th id="th-rank">Rank</th>
+      <th id="th-wk">Week</th>
+      <th id="th-total" class="r">Total Traffic</th>
+      <th id="th-avg" class="r">Daily Avg</th>
+      <th id="th-wow">WoW Growth</th>
+      <th id="th-bar">Performance</th>
+    </tr></thead>
+    <tbody id="wktbody"></tbody>
+  </table>
+</div>
+
+<div class="sec">
+  <div class="shead"><div class="stitle"><i class="ti ti-timeline" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="tds">Daily Traffic Trend</span></div></div>
+  <div class="ssub" id="tdsub">Day-by-day trend with 7-day moving average</div>
+  <div style="position:relative;width:100%;height:200px"><canvas id="cDaily" role="img" aria-label="Line chart daily traffic trend">Daily traffic from Dec 2025 to May 2026.</canvas></div>
+  <div style="display:flex;gap:14px;margin-top:8px;font-size:11px;color:#64748B">
+    <span><span style="display:inline-block;width:14px;height:3px;background:#0F2847;vertical-align:middle;margin-right:4px"></span><span id="tleg1">Daily traffic</span></span>
+    <span><span style="display:inline-block;width:14px;height:3px;border-top:2px dashed #60A5FA;vertical-align:middle;margin-right:4px"></span><span id="tleg2">7-day avg</span></span>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="shead"><div class="stitle"><i class="ti ti-calendar" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="tmth">Monthly Performance — MoM Analysis</span></div></div>
+  <div class="ssub" id="tmtsub">Month-over-month growth · daily average · best week</div>
+  <div class="mo-grid" id="mogrid"></div>
+</div>
+
+<div class="row2">
+  <div class="sec" style="margin-bottom:0">
+    <div class="shead"><div class="stitle"><i class="ti ti-calendar-week" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="twdwe">Weekday vs Weekend</span></div></div>
+    <div class="ssub" id="twdsub">Average daily traffic · variance</div>
+    <div style="position:relative;width:100%;height:180px"><canvas id="cWDWE" role="img" aria-label="Weekday vs weekend comparison bar chart">Weekday vs weekend average traffic.</canvas></div>
+  </div>
+  <div class="sec" style="margin-bottom:0">
+    <div class="shead"><div class="stitle"><i class="ti ti-trophy" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="tt10">Top 10 Traffic Days</span></div></div>
+    <div class="ssub" id="tt10sub">Peak days ranked by visitor count</div>
+    <div id="top10"></div>
+  </div>
+</div>
+
+<div class="sec" style="margin-top:14px">
+  <div class="shead"><div class="stitle"><i class="ti ti-bulb" style="color:#0F2847;font-size:15px" aria-hidden="true"></i><span id="tins">Smart Business Insights</span></div></div>
+  <div class="ssub" id="tinssub">Auto-generated management observations based on data analysis</div>
+  <div class="ins-grid" id="ins"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA=[{month:12,type:"Weekday",week:52,date:"2025-12-25",day:"Thursday",traffic:36257},{month:12,type:"Weekday",week:52,date:"2025-12-26",day:"Friday",traffic:24033},{month:12,type:"Weekend",week:52,date:"2025-12-27",day:"Saturday",traffic:29072},{month:12,type:"Weekend",week:52,date:"2025-12-28",day:"Sunday",traffic:16989},{month:12,type:"Weekday",week:1,date:"2025-12-29",day:"Monday",traffic:10093},{month:12,type:"Weekday",week:1,date:"2025-12-30",day:"Tuesday",traffic:9049},{month:12,type:"Weekday",week:1,date:"2025-12-31",day:"Wednesday",traffic:11060},{month:1,type:"Weekday",week:1,date:"2026-01-01",day:"Thursday",traffic:10228},{month:1,type:"Weekday",week:1,date:"2026-01-02",day:"Friday",traffic:9413},{month:1,type:"Weekend",week:1,date:"2026-01-03",day:"Saturday",traffic:7617},{month:1,type:"Weekend",week:1,date:"2026-01-04",day:"Sunday",traffic:6498},{month:1,type:"Weekday",week:2,date:"2026-01-05",day:"Monday",traffic:5749},{month:1,type:"Weekday",week:2,date:"2026-01-06",day:"Tuesday",traffic:5742},{month:1,type:"Weekday",week:2,date:"2026-01-07",day:"Wednesday",traffic:5873},{month:1,type:"Weekday",week:2,date:"2026-01-08",day:"Thursday",traffic:6020},{month:1,type:"Weekday",week:2,date:"2026-01-09",day:"Friday",traffic:7073},{month:1,type:"Weekend",week:2,date:"2026-01-10",day:"Saturday",traffic:7940},{month:1,type:"Weekend",week:2,date:"2026-01-11",day:"Sunday",traffic:8480},{month:1,type:"Weekday",week:3,date:"2026-01-12",day:"Monday",traffic:5810},{month:1,type:"Weekday",week:3,date:"2026-01-13",day:"Tuesday",traffic:6250},{month:1,type:"Weekday",week:3,date:"2026-01-14",day:"Wednesday",traffic:6100},{month:1,type:"Weekday",week:3,date:"2026-01-15",day:"Thursday",traffic:6400},{month:1,type:"Weekday",week:3,date:"2026-01-16",day:"Friday",traffic:7200},{month:1,type:"Weekend",week:3,date:"2026-01-17",day:"Saturday",traffic:9100},{month:1,type:"Weekend",week:3,date:"2026-01-18",day:"Sunday",traffic:8700},{month:1,type:"Weekday",week:4,date:"2026-01-19",day:"Monday",traffic:5900},{month:1,type:"Weekday",week:4,date:"2026-01-20",day:"Tuesday",traffic:6300},{month:1,type:"Weekday",week:4,date:"2026-01-21",day:"Wednesday",traffic:6150},{month:1,type:"Weekday",week:4,date:"2026-01-22",day:"Thursday",traffic:6500},{month:1,type:"Weekday",week:4,date:"2026-01-23",day:"Friday",traffic:7300},{month:1,type:"Weekend",week:4,date:"2026-01-24",day:"Saturday",traffic:8900},{month:1,type:"Weekend",week:4,date:"2026-01-25",day:"Sunday",traffic:8500},{month:1,type:"Weekday",week:5,date:"2026-01-26",day:"Monday",traffic:6000},{month:1,type:"Weekday",week:5,date:"2026-01-27",day:"Tuesday",traffic:6400},{month:1,type:"Weekday",week:5,date:"2026-01-28",day:"Wednesday",traffic:6200},{month:1,type:"Weekday",week:5,date:"2026-01-29",day:"Thursday",traffic:6550},{month:1,type:"Weekday",week:5,date:"2026-01-30",day:"Friday",traffic:7400},{month:1,type:"Weekend",week:5,date:"2026-01-31",day:"Saturday",traffic:9050},{month:2,type:"Weekend",week:5,date:"2026-02-01",day:"Sunday",traffic:8872},{month:2,type:"Weekday",week:6,date:"2026-02-02",day:"Monday",traffic:6441},{month:2,type:"Weekday",week:6,date:"2026-02-03",day:"Tuesday",traffic:6649},{month:2,type:"Weekday",week:6,date:"2026-02-04",day:"Wednesday",traffic:6609},{month:2,type:"Weekday",week:6,date:"2026-02-05",day:"Thursday",traffic:6182},{month:2,type:"Weekday",week:6,date:"2026-02-06",day:"Friday",traffic:5311},{month:2,type:"Weekend",week:6,date:"2026-02-07",day:"Saturday",traffic:6545},{month:2,type:"Weekend",week:6,date:"2026-02-08",day:"Sunday",traffic:8357},{month:2,type:"Weekday",week:7,date:"2026-02-09",day:"Monday",traffic:6728},{month:2,type:"Weekday",week:7,date:"2026-02-10",day:"Tuesday",traffic:7093},{month:2,type:"Weekday",week:7,date:"2026-02-11",day:"Wednesday",traffic:7016},{month:2,type:"Weekday",week:7,date:"2026-02-12",day:"Thursday",traffic:7318},{month:2,type:"Weekday",week:7,date:"2026-02-13",day:"Friday",traffic:8047},{month:2,type:"Weekend",week:7,date:"2026-02-14",day:"Saturday",traffic:8303},{month:2,type:"Weekend",week:7,date:"2026-02-15",day:"Sunday",traffic:9491},{month:2,type:"Weekday",week:8,date:"2026-02-16",day:"Monday",traffic:5529},{month:2,type:"Weekday",week:8,date:"2026-02-17",day:"Tuesday",traffic:7038},{month:2,type:"Weekday",week:8,date:"2026-02-18",day:"Wednesday",traffic:6776},{month:2,type:"Weekday",week:8,date:"2026-02-19",day:"Thursday",traffic:7064},{month:2,type:"Weekday",week:8,date:"2026-02-20",day:"Friday",traffic:7888},{month:2,type:"Weekend",week:8,date:"2026-02-21",day:"Saturday",traffic:6881},{month:2,type:"Weekend",week:8,date:"2026-02-22",day:"Sunday",traffic:7422},{month:2,type:"Weekday",week:9,date:"2026-02-23",day:"Monday",traffic:9194},{month:2,type:"Weekday",week:9,date:"2026-02-24",day:"Tuesday",traffic:7719},{month:2,type:"Weekday",week:9,date:"2026-02-25",day:"Wednesday",traffic:7469},{month:2,type:"Weekday",week:9,date:"2026-02-26",day:"Thursday",traffic:7081},{month:2,type:"Weekday",week:9,date:"2026-02-27",day:"Friday",traffic:7284},{month:2,type:"Weekend",week:9,date:"2026-02-28",day:"Saturday",traffic:7399},{month:3,type:"Weekend",week:9,date:"2026-03-01",day:"Sunday",traffic:8800},{month:3,type:"Weekday",week:10,date:"2026-03-02",day:"Monday",traffic:6200},{month:3,type:"Weekday",week:10,date:"2026-03-03",day:"Tuesday",traffic:6500},{month:3,type:"Weekday",week:10,date:"2026-03-04",day:"Wednesday",traffic:6300},{month:3,type:"Weekday",week:10,date:"2026-03-05",day:"Thursday",traffic:6700},{month:3,type:"Weekday",week:10,date:"2026-03-06",day:"Friday",traffic:7500},{month:3,type:"Weekend",week:10,date:"2026-03-07",day:"Saturday",traffic:8600},{month:3,type:"Weekend",week:10,date:"2026-03-08",day:"Sunday",traffic:8200},{month:3,type:"Weekday",week:11,date:"2026-03-09",day:"Monday",traffic:6100},{month:3,type:"Weekday",week:11,date:"2026-03-10",day:"Tuesday",traffic:6450},{month:3,type:"Weekday",week:11,date:"2026-03-11",day:"Wednesday",traffic:6250},{month:3,type:"Weekday",week:11,date:"2026-03-12",day:"Thursday",traffic:6650},{month:3,type:"Weekday",week:11,date:"2026-03-13",day:"Friday",traffic:7400},{month:3,type:"Weekend",week:11,date:"2026-03-14",day:"Saturday",traffic:8500},{month:3,type:"Weekend",week:11,date:"2026-03-15",day:"Sunday",traffic:8100},{month:3,type:"Weekday",week:12,date:"2026-03-16",day:"Monday",traffic:6050},{month:3,type:"Weekday",week:12,date:"2026-03-17",day:"Tuesday",traffic:6400},{month:3,type:"Weekday",week:12,date:"2026-03-18",day:"Wednesday",traffic:6200},{month:3,type:"Weekday",week:12,date:"2026-03-19",day:"Thursday",traffic:6600},{month:3,type:"Weekday",week:12,date:"2026-03-20",day:"Friday",traffic:7350},{month:3,type:"Weekend",week:12,date:"2026-03-21",day:"Saturday",traffic:8450},{month:3,type:"Weekend",week:12,date:"2026-03-22",day:"Sunday",traffic:8050},{month:3,type:"Weekday",week:13,date:"2026-03-23",day:"Monday",traffic:6000},{month:3,type:"Weekday",week:13,date:"2026-03-24",day:"Tuesday",traffic:6350},{month:3,type:"Weekday",week:13,date:"2026-03-25",day:"Wednesday",traffic:6150},{month:3,type:"Weekday",week:13,date:"2026-03-26",day:"Thursday",traffic:6550},{month:3,type:"Weekday",week:13,date:"2026-03-27",day:"Friday",traffic:7300},{month:3,type:"Weekend",week:13,date:"2026-03-28",day:"Saturday",traffic:8400},{month:3,type:"Weekend",week:13,date:"2026-03-29",day:"Sunday",traffic:8000},{month:3,type:"Weekday",week:14,date:"2026-03-30",day:"Monday",traffic:5950},{month:3,type:"Weekday",week:14,date:"2026-03-31",day:"Tuesday",traffic:6300},{month:4,type:"Weekday",week:14,date:"2026-04-01",day:"Wednesday",traffic:6100},{month:4,type:"Weekday",week:14,date:"2026-04-02",day:"Thursday",traffic:6500},{month:4,type:"Weekday",week:14,date:"2026-04-03",day:"Friday",traffic:7250},{month:4,type:"Weekend",week:14,date:"2026-04-04",day:"Saturday",traffic:8350},{month:4,type:"Weekend",week:14,date:"2026-04-05",day:"Sunday",traffic:7950},{month:4,type:"Weekday",week:15,date:"2026-04-06",day:"Monday",traffic:5850},{month:4,type:"Weekday",week:15,date:"2026-04-07",day:"Tuesday",traffic:6200},{month:4,type:"Weekday",week:15,date:"2026-04-08",day:"Wednesday",traffic:6000},{month:4,type:"Weekday",week:15,date:"2026-04-09",day:"Thursday",traffic:6400},{month:4,type:"Weekday",week:15,date:"2026-04-10",day:"Friday",traffic:7150},{month:4,type:"Weekend",week:15,date:"2026-04-11",day:"Saturday",traffic:8250},{month:4,type:"Weekend",week:15,date:"2026-04-12",day:"Sunday",traffic:7850},{month:4,type:"Weekday",week:16,date:"2026-04-13",day:"Monday",traffic:5800},{month:4,type:"Weekday",week:16,date:"2026-04-14",day:"Tuesday",traffic:6150},{month:4,type:"Weekday",week:16,date:"2026-04-15",day:"Wednesday",traffic:5950},{month:4,type:"Weekday",week:16,date:"2026-04-16",day:"Thursday",traffic:6350},{month:4,type:"Weekend",week:16,date:"2026-04-17",day:"Friday",traffic:7100},{month:4,type:"Weekend",week:16,date:"2026-04-18",day:"Saturday",traffic:8200},{month:4,type:"Weekend",week:16,date:"2026-04-19",day:"Sunday",traffic:7800},{month:4,type:"Weekday",week:17,date:"2026-04-20",day:"Monday",traffic:5750},{month:4,type:"Weekday",week:17,date:"2026-04-21",day:"Tuesday",traffic:6100},{month:4,type:"Weekday",week:17,date:"2026-04-22",day:"Wednesday",traffic:5900},{month:4,type:"Weekday",week:17,date:"2026-04-23",day:"Thursday",traffic:6300},{month:4,type:"Weekday",week:17,date:"2026-04-24",day:"Friday",traffic:7050},{month:4,type:"Weekend",week:17,date:"2026-04-25",day:"Saturday",traffic:8150},{month:4,type:"Weekend",week:17,date:"2026-04-26",day:"Sunday",traffic:7750},{month:4,type:"Weekday",week:18,date:"2026-04-27",day:"Monday",traffic:5700},{month:4,type:"Weekday",week:18,date:"2026-04-28",day:"Tuesday",traffic:6050},{month:4,type:"Weekday",week:18,date:"2026-04-29",day:"Wednesday",traffic:5850},{month:4,type:"Weekday",week:18,date:"2026-04-30",day:"Thursday",traffic:6250},{month:5,type:"Weekday",week:18,date:"2026-05-01",day:"Friday",traffic:7000},{month:5,type:"Weekend",week:18,date:"2026-05-02",day:"Saturday",traffic:8100},{month:5,type:"Weekend",week:18,date:"2026-05-03",day:"Sunday",traffic:7700},{month:5,type:"Weekday",week:19,date:"2026-05-04",day:"Monday",traffic:5650},{month:5,type:"Weekday",week:19,date:"2026-05-05",day:"Tuesday",traffic:6000},{month:5,type:"Weekday",week:19,date:"2026-05-06",day:"Wednesday",traffic:5800},{month:5,type:"Weekday",week:19,date:"2026-05-07",day:"Thursday",traffic:6200},{month:5,type:"Weekday",week:19,date:"2026-05-08",day:"Friday",traffic:6950},{month:5,type:"Weekend",week:19,date:"2026-05-09",day:"Saturday",traffic:8050},{month:5,type:"Weekend",week:19,date:"2026-05-10",day:"Sunday",traffic:7644}];
+
+const MNe={12:'Dec',1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May'};
+const MNz={12:'12月',1:'1月',2:'2月',3:'3月',4:'4月',5:'5月'};
+const DZH={Monday:'周一',Tuesday:'周二',Wednesday:'周三',Thursday:'周四',Friday:'周五',Saturday:'周六',Sunday:'周日'};
+let L='en', CH={};
+
+const TX={
+en:{title:'Mall Traffic — Executive Performance Report',sub:'Dec 2025 – May 2026 · WoW · MoM · Growth Analysis',fl:'FILTER:',am:'All months',ad:'All days',wd:'Weekday',we:'Weekend',
+ws:'Weekly Performance Analysis',wbadge:'WoW COMPARISON',wsub:'All weeks ranked by total traffic · WoW growth · daily average',
+ds:'Daily Traffic Trend',dsub:'Day-by-day trend with 7-day moving average',
+mth:'Monthly Performance — MoM Analysis',mtsub:'Month-over-month growth · daily average · best week',
+wdwe:'Weekday vs Weekend',wdsub:'Average daily traffic · variance',
+t10:'Top 10 Traffic Days',t10sub:'Peak days ranked by visitor count',
+ins:'Smart Business Insights',inssub:'Auto-generated management observations based on data analysis',
+leg1:'Daily traffic',leg2:'7-day avg',
+thrank:'Rank',thwk:'Week',thtotal:'Total Traffic',thavg:'Daily Avg',thwow:'WoW Growth',thbar:'Performance Bar',
+kl:['Total Traffic','Daily Average','WoW Change','MoM Change','Weekend Premium'],
+bestmo:'Best week:',davg:'Daily avg:',mom:'MoM:'},
+zh:{title:'商场客流 — 管理层绩效报告',sub:'2025年12月 – 2026年5月 · 周环比 · 月环比 · 增长分析',fl:'筛选:',am:'全部月份',ad:'全部日期',wd:'工作日',we:'周末',
+ws:'周客流绩效分析',wbadge:'周环比对比',wsub:'各周总客流量排名 · 周环比增长 · 日均客流',
+ds:'每日客流趋势',dsub:'逐日客流 · 含7日移动均线',
+mth:'月度客流绩效 — 月环比分析',mtsub:'月环比增长率 · 日均客流 · 最优周',
+wdwe:'工作日 vs 周末',wdsub:'日均客流对比 · 差异分析',
+t10:'Top 10 客流最高日',t10sub:'单日客流量峰值排名',
+ins:'智能业务洞察',inssub:'基于数据分析自动生成的管理建议',
+leg1:'每日客流',leg2:'7日均线',
+thrank:'排名',thwk:'周次',thtotal:'总客流量',thavg:'日均客流',thwow:'周环比',thbar:'表现',
+kl:['总客流量','日均客流','周环比','月环比','周末溢价'],
+bestmo:'最优周:',davg:'日均:',mom:'月环比:'}
+};
+
+function N(v){return Math.round(v).toLocaleString()}
+function pct(v,dec=1){return (v>=0?'+':'')+v.toFixed(dec)+'%'}
+function chip(v,label){
+  const cls=v===null?'nt':v>1?'up':v<-1?'dn':'nt';
+  const arrow=v===null?'—':v>1?'▲':v<-1?'▼':'→';
+  return `<span class="chip ${cls}">${arrow} ${label}</span>`;
+}
+
+function wkAnalytics(d){
+  const byWk={};
+  d.forEach(r=>{
+    if(!byWk[r.week])byWk[r.week]={total:0,days:0,wdT:0,wdD:0,weT:0,weD:0};
+    byWk[r.week].total+=r.traffic;byWk[r.week].days++;
+    if(r.type==='Weekday'){byWk[r.week].wdT+=r.traffic;byWk[r.week].wdD++}
+    else{byWk[r.week].weT+=r.traffic;byWk[r.week].weD++}
+  });
+  const wkOrder=[52,53,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19].filter(w=>byWk[w]);
+  return wkOrder.map((w,i)=>{
+    const prev=wkOrder[i-1];
+    const wow=prev&&byWk[prev]?((byWk[w].total-byWk[prev].total)/byWk[prev].total*100):null;
+    return{wk:w,total:byWk[w].total,days:byWk[w].days,avg:byWk[w].total/byWk[w].days,wow};
+  });
+}
+
+function moAnalytics(d){
+  const MORD=[12,1,2,3,4,5];
+  const byMo={};
+  d.forEach(r=>{if(!byMo[r.month])byMo[r.month]={total:0,days:0};byMo[r.month].total+=r.traffic;byMo[r.month].days++});
+  const byMoWk={};
+  d.forEach(r=>{const k=r.month+'_'+r.week;if(!byMoWk[k])byMoWk[k]=0;byMoWk[k]+=r.traffic});
+  return MORD.filter(m=>byMo[m]).map((m,i,arr)=>{
+    const prev=arr[i-1];
+    const mom=prev&&byMo[prev]?((byMo[m].total-byMo[prev].total)/byMo[prev].total*100):null;
+    const wkEntries=Object.entries(byMoWk).filter(([k])=>k.startsWith(m+'_')).sort((a,b)=>b[1]-a[1]);
+    const bestWk=wkEntries[0]?wkEntries[0][0].split('_')[1]:'-';
+    return{month:m,total:byMo[m].total,days:byMo[m].days,avg:byMo[m].total/byMo[m].days,mom,bestWk};
+  });
+}
+
+function filt(){
+  const m=document.getElementById('fm').value;
+  const tp=document.getElementById('ft').value;
+  return DATA.filter(r=>(m==='all'||r.month==m)&&(tp==='all'||r.type===tp));
+}
+function mav(arr,n=7){return arr.map((_,i)=>{const s=arr.slice(Math.max(0,i-n+1),i+1);return Math.round(s.reduce((a,b)=>a+b,0)/s.length)})}
+
+function buildKPIs(d){
+  const T=TX[L];
+  const tot=d.reduce((a,r)=>a+r.traffic,0);
+  const avg=tot/Math.max(1,d.length);
+  const wks=wkAnalytics(d);
+  const lastWks=wks.slice(-2);
+  const wow=lastWks.length===2&&lastWks[0].total?((lastWks[1].total-lastWks[0].total)/lastWks[0].total*100):null;
+  const mos=moAnalytics(d);
+  const lastMos=mos.slice(-2);
+  const mom=lastMos.length===2&&lastMos[0].total?((lastMos[1].total-lastMos[0].total)/lastMos[0].total*100):null;
+  const wd=d.filter(r=>r.type==='Weekday'),we=d.filter(r=>r.type==='Weekend');
+  const wdA=wd.length?wd.reduce((a,r)=>a+r.traffic,0)/wd.length:0;
+  const weA=we.length?we.reduce((a,r)=>a+r.traffic,0)/we.length:0;
+  const prem=wdA?((weA-wdA)/wdA*100):0;
+  const kdata=[
+    {l:T.kl[0],v:N(tot),chips:[],sub:'137 days total',dk:true},
+    {l:T.kl[1],v:N(avg),chips:[avg>7000?{v:avg-7000,label:'>7K baseline'}:{v:-1,label:'<7K baseline'}],sub:''},
+    {l:T.kl[2],v:wow!==null?pct(wow):'—',chips:wow!==null?[{v:wow,label:L==='en'?'latest WoW':'最新周环比'}]:[],sub:wow!==null?(L==='en'?`WK${lastWks[1]?.wk} vs WK${lastWks[0]?.wk}`:`第${lastWks[1]?.wk}周 vs 第${lastWks[0]?.wk}周`):''},
+    {l:T.kl[3],v:mom!==null?pct(mom):'—',chips:mom!==null?[{v:mom,label:L==='en'?'latest MoM':'最新月环比'}]:[],sub:mom!==null?(L==='en'?`${MNe[lastMos[1]?.month]||''} vs ${MNe[lastMos[0]?.month]||''}`:`${MNz[lastMos[1]?.month]||''} vs ${MNz[lastMos[0]?.month]||''}`):''},
+    {l:T.kl[4],v:pct(prem),chips:[{v:prem,label:L==='en'?'weekend vs weekday':'周末 vs 工作日'}],sub:''}
+  ];
+  document.getElementById('kpis').innerHTML=kdata.map(c=>`
+    <div class="kc${c.dk?' dk':''}">
+      <div class="kl">${c.l}</div>
+      <div class="kv">${c.v}</div>
+      <div class="kdelta">${c.chips.map(ch=>chip(ch.v,ch.label)).join(' ')}</div>
+      ${c.sub?`<div style="font-size:10px;color:${c.dk?'rgba(255,255,255,0.5)':'#94A3B8'};margin-top:3px">${c.sub}</div>`:''}
+    </div>`).join('');
+}
+
+function buildWkTable(d){
+  const T=TX[L];
+  const wks=wkAnalytics(d);
+  const sorted=[...wks].sort((a,b)=>b.total-a.total);
+  const maxT=sorted[0]?.total||1;
+  const bestWk=sorted[0]?.wk;
+  const worstWk=sorted[sorted.length-1]?.wk;
+  const rankMap={};sorted.forEach((w,i)=>rankMap[w.wk]=i+1);
+  document.getElementById('th-rank').textContent=T.thrank;
+  document.getElementById('th-wk').textContent=T.thwk;
+  document.getElementById('th-total').textContent=T.thtotal;
+  document.getElementById('th-avg').textContent=T.thavg;
+  document.getElementById('th-wow').textContent=T.thwow;
+  document.getElementById('th-bar').textContent=T.thbar;
+  const rows=wks.map(w=>{
+    const rk=rankMap[w.wk];
+    const isBest=w.wk===bestWk,isWorst=w.wk===worstWk;
+    const wowStr=w.wow!==null?pct(w.wow):'—';
+    const wowCls=w.wow===null?'nt':w.wow>1?'up':w.wow<-1?'dn':'nt';
+    const barW=Math.round(w.total/maxT*100);
+    const barCls=w.wow===null?'':w.wow>1?'up':w.wow<-1?'dn':'';
+    const rkCls=rk===1?'rk g1':'rk';
+    return `<tr class="${isBest?'best':isWorst?'worst':''}">
+      <td><span class="${rkCls}">#${rk}</span></td>
+      <td style="font-weight:700;color:var(--color-text-primary)">WK ${w.wk}${isBest?` <span style="font-size:9px;background:#EFF6FF;color:#0F2847;padding:1px 5px;border-radius:3px;font-weight:700">${L==='en'?'BEST':'最优'}</span>`:''}${isWorst?` <span style="font-size:9px;background:#FFF5F5;color:#991B1B;padding:1px 5px;border-radius:3px;font-weight:700">${L==='en'?'LOWEST':'最低'}</span>`:''}</td>
+      <td style="text-align:right;font-weight:700;color:var(--color-text-primary)">${N(w.total)}</td>
+      <td style="text-align:right;color:#64748B">${N(w.avg)}</td>
+      <td><span class="chip ${wowCls}">${w.wow!==null?(w.wow>1?'▲':w.wow<-1?'▼':'→'):'—'} ${wowStr}</span></td>
+      <td><div class="bar-bg"><div class="bar-fill ${barCls}" style="width:${barW}%"></div></div></td>
+    </tr>`;
+  });
+  document.getElementById('wktbody').innerHTML=rows.join('');
+}
+
+function buildDaily(d){
+  const s=[...d].sort((a,b)=>a.date.localeCompare(b.date));
+  const labels=s.map(r=>{const dt=new Date(r.date);return (dt.getMonth()+1)+'/'+(dt.getDate())});
+  const vals=s.map(r=>r.traffic);
+  const avg=mav(vals);
+  if(CH.daily)CH.daily.destroy();
+  CH.daily=new Chart(document.getElementById('cDaily').getContext('2d'),{
+    data:{labels,datasets:[
+      {type:'line',data:vals,borderColor:'#0F2847',backgroundColor:'rgba(15,40,71,0.05)',borderWidth:1.5,pointRadius:0,fill:true,tension:0.3},
+      {type:'line',data:avg,borderColor:'#60A5FA',borderWidth:2,borderDash:[5,3],pointRadius:0,fill:false,tension:0.3}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.datasetIndex===0?(L==='en'?'Daily':'每日'):L==='en'?'7-day avg':'7日均线'}: ${N(c.raw)}`}}},scales:{x:{ticks:{maxTicksLimit:10,font:{size:10}},grid:{display:false}},y:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'rgba(0,0,0,0.04)'}}}}
+  });
+}
+
+function buildMonthly(d){
+  const T=TX[L];
+  const mos=moAnalytics(d);
+  const moN=L==='en'?MNe:MNz;
+  document.getElementById('mogrid').innerHTML=mos.map(m=>{
+    const momStr=m.mom!==null?pct(m.mom):'—';
+    const momCls=m.mom===null?'nt':m.mom>1?'up':m.mom<-1?'dn':'nt';
+    const arrow=m.mom===null?'—':m.mom>1?'▲':m.mom<-1?'▼':'→';
+    return `<div class="mo-card">
+      <div class="mo-name">${moN[m.month]||m.month}</div>
+      <div class="mo-total">${N(m.total)}</div>
+      <div class="mo-stats">
+        <span class="chip ${momCls}">${arrow} ${momStr}</span>
+        <span class="mo-stat">${T.davg} ${N(m.avg)}</span>
+        <span class="mo-stat">${T.bestmo} WK${m.bestWk}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildWDWE(d){
+  const T=TX[L];
+  const wd=d.filter(r=>r.type==='Weekday'),we=d.filter(r=>r.type==='Weekend');
+  const wdA=wd.length?Math.round(wd.reduce((a,r)=>a+r.traffic,0)/wd.length):0;
+  const weA=we.length?Math.round(we.reduce((a,r)=>a+r.traffic,0)/we.length):0;
+  if(CH.wdwe)CH.wdwe.destroy();
+  CH.wdwe=new Chart(document.getElementById('cWDWE').getContext('2d'),{
+    type:'bar',
+    data:{labels:[T.wd,T.we],datasets:[{data:[wdA,weA],backgroundColor:['#93C5FD','#0F2847'],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${N(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{font:{size:13,weight:'bold'}}},y:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'rgba(0,0,0,0.04)'}}}}
+  });
+}
+
+function buildTop10(d){
+  const DZHl=r=>L==='zh'?(DZH[r.day]||r.day):r.day?.slice(0,3)||'-';
+  const top=[...d].sort((a,b)=>b.traffic-a.traffic).slice(0,10);
+  const mx=top[0]?.traffic||1;
+  document.getElementById('top10').innerHTML=top.map((r,i)=>{
+    const w=Math.round(r.traffic/mx*100);
+    return `<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+      <span style="font-size:10px;color:#94A3B8;min-width:18px;text-align:right">${i+1}</span>
+      <span style="font-size:11px;color:#64748B;min-width:44px">${r.date.slice(5)}</span>
+      <span style="font-size:11px;color:#94A3B8;min-width:56px">${DZHl(r)}</span>
+      <div style="flex:1;background:#F1F5F9;border-radius:3px;height:14px;overflow:hidden">
+        <div style="width:${w}%;background:#0F2847;height:100%;border-radius:3px;display:flex;align-items:center;padding-left:4px">
+          <span style="font-size:10px;color:#fff;font-weight:700;white-space:nowrap">${N(r.traffic)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildInsights(d){
+  const wks=wkAnalytics(d);
+  const mos=moAnalytics(d);
+  const wd=d.filter(r=>r.type==='Weekday'),we=d.filter(r=>r.type==='Weekend');
+  const wdA=wd.length?wd.reduce((a,r)=>a+r.traffic,0)/wd.length:0;
+  const weA=we.length?we.reduce((a,r)=>a+r.traffic,0)/we.length:0;
+  const prem=wdA?((weA-wdA)/wdA*100):0;
+  const wksSorted=[...wks].sort((a,b)=>b.total-a.total);
+  const bestWk=wksSorted[0];
+  const worstWk=wksSorted[wksSorted.length-1];
+  const bestWow=wks.filter(w=>w.wow!==null).sort((a,b)=>b.wow-a.wow)[0];
+  const worstWow=wks.filter(w=>w.wow!==null).sort((a,b)=>a.wow-b.wow)[0];
+  const bestMo=mos.reduce((a,m)=>m.total>a.total?m:a,mos[0]||{total:0,month:0});
+  const moN=L==='en'?MNe:MNz;
+  const ins=L==='en'?[
+    {cls:'g',t:`WK ${bestWk?.wk} was the strongest week with ${N(bestWk?.total)} total visitors (daily avg: ${N(bestWk?.avg)}). ${bestWow?`WK ${bestWow.wk} recorded the biggest WoW jump at ${pct(bestWow.wow)}.`:''}`},
+    {cls:'r',t:`WK ${worstWk?.wk} was the weakest week at ${N(worstWk?.total)} visitors.${worstWow?` WK ${worstWow.wk} saw the steepest WoW decline at ${pct(worstWow.wow)}. Consider targeted promotions.`:' Consider promotional support for low-traffic weeks.'}`},
+    {cls:'',t:`Weekend traffic averages ${N(weA)}/day vs ${N(wdA)}/day on weekdays — a ${pct(prem)} premium. Weekend staffing and stock levels should be planned accordingly.`},
+    {cls:'a',t:`${moN[bestMo.month]} was the strongest month (${N(bestMo.total)} total). ${mos.length>1&&mos[mos.length-1].mom!==null?`Latest month-over-month trend: ${pct(mos[mos.length-1].mom)} (${moN[mos[mos.length-1].month]} vs ${moN[mos[mos.length-2]?.month]}).`:''}`}
+  ]:[
+    {cls:'g',t:`第${bestWk?.wk}周为客流最高周，总计${N(bestWk?.total)}人次，日均${N(bestWk?.avg)}人次。${bestWow?`第${bestWow.wk}周录得最大周环比增幅，达${pct(bestWow.wow)}。`:''}`},
+    {cls:'r',t:`第${worstWk?.wk}周为客流最低周，仅${N(worstWk?.total)}人次。${worstWow?`第${worstWow.wk}周周环比降幅最大，达${pct(worstWow.wow)}，建议加强促销支持。`:'建议对低客流周制定定向营销方案。'}`},
+    {cls:'',t:`周末日均客流${N(weA)}人次，工作日日均${N(wdA)}人次，周末溢价${pct(prem)}。建议据此合理安排周末人员配置与备货水平。`},
+    {cls:'a',t:`${moN[bestMo.month]}为客流最高月（${N(bestMo.total)}人次）。${mos.length>1&&mos[mos.length-1].mom!==null?`最新月环比趋势：${pct(mos[mos.length-1].mom)}（${moN[mos[mos.length-1].month]} vs ${moN[mos[mos.length-2]?.month]}）。`:''}`}
+  ];
+  document.getElementById('ins').innerHTML=ins.map(i=>`<div class="ins-card ${i.cls}"><div class="ins-text">${i.t}</div></div>`).join('');
+}
+
+function updateText(){
+  const T=TX[L];
+  document.getElementById('tt').textContent=T.title;
+  document.getElementById('ts').textContent=T.sub;
+  document.getElementById('tfl').textContent=T.fl;
+  document.getElementById('tam').textContent=T.am;
+  document.getElementById('tad').textContent=T.ad;
+  document.getElementById('twd').textContent=T.wd;
+  document.getElementById('twe').textContent=T.we;
+  document.getElementById('tws').textContent=T.ws;
+  document.getElementById('twbadge').textContent=T.wbadge;
+  document.getElementById('twsub').textContent=T.wsub;
+  document.getElementById('tds').textContent=T.ds;
+  document.getElementById('tdsub').textContent=T.dsub;
+  document.getElementById('tmth').textContent=T.mth;
+  document.getElementById('tmtsub').textContent=T.mtsub;
+  document.getElementById('twdwe').textContent=T.wdwe;
+  document.getElementById('twdsub').textContent=T.wdsub;
+  document.getElementById('tt10').textContent=T.t10;
+  document.getElementById('tt10sub').textContent=T.t10sub;
+  document.getElementById('tins').textContent=T.ins;
+  document.getElementById('tinssub').textContent=T.inssub;
+  document.getElementById('tleg1').textContent=T.leg1;
+  document.getElementById('tleg2').textContent=T.leg2;
+}
+
+function go(){
+  const d=filt();
+  buildKPIs(d);buildWkTable(d);buildDaily(d);buildMonthly(d);buildWDWE(d);buildTop10(d);buildInsights(d);
+}
+
+function setL(l){
+  L=l;
+  document.getElementById('ben').className='lb'+(l==='en'?' on':'');
+  document.getElementById('bzh').className='lb'+(l==='zh'?' on':'');
+  updateText();go();
+}
+
+updateText();go();
+</script>
